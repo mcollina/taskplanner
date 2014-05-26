@@ -1,5 +1,6 @@
 
-var patrun  = require('patrun')
+var patrun    = require('patrun')
+  , isInside  = require('./lib/is_inside')
 
 function Planner() {
   if (!(this instanceof Planner)) {
@@ -10,20 +11,16 @@ function Planner() {
 }
 
 Planner.prototype.addTask = function(pattern, task) {
-  this._tasks.add(pattern, task)
 
-  return this
-}
+  var tasks = this._tasks.find(pattern, true)
 
-// TODO this needs to be recursive
-function isInside(a, b) {
-  for (var k in a) {
-    if (a[k] !== b[k]) {
-      return false
-    }
+  if (tasks) {
+    tasks.push(task)
+  } else {
+    this._tasks.add(pattern, [task])
   }
 
-  return true
+  return this
 }
 
 Planner.prototype.plan = function(state, toExecute, tasks) {
@@ -40,28 +37,35 @@ Planner.prototype.plan = function(state, toExecute, tasks) {
   }
 
   var task = toExecute.shift()
-    , op = this._tasks.find(task, true)
+    , ops = this._tasks.find(task, true)
+    , that = this
 
-  if (!op) {
+  if (!ops || ops.length == 0) {
     return null
   }
 
-  if (!isInside(op.preconditions, state)) {
-    return null
-  }
+  return ops.reduce(function(result, op) {
+    if (result)
+      return result
 
-  newState = Object.keys(op.effects || {}).reduce(function(newState, key) {
-    newState[key] = op.effects[key]
-    return newState
-  }, Object.create(state));
+    var newState
 
-  if (op.subTasks) {
-    toExecute = toExecute.concat(op.subTasks)
-  } else {
-    tasks.push(task)
-  }
+    if (!isInside(op.preconditions, state))
+      return null
 
-  return this.plan(newState, toExecute, tasks)
+    newState = Object.keys(op.effects || {}).reduce(function(newState, key) {
+      newState[key] = op.effects[key]
+      return newState
+    }, Object.create(state));
+
+    if (op.subTasks) {
+      toExecute = op.subTasks.concat(toExecute)
+    } else {
+      tasks.push(task)
+    }
+
+    return that.plan(newState, toExecute, tasks)
+  }, null)
 }
 
 module.exports = Planner

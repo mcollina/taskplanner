@@ -1,10 +1,10 @@
 {
   "name": "taskplanner",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Plan any task from subtasks!",
   "main": "index.js",
   "scripts": {
-    "test": "tap test.js"
+    "test": "tap test/*"
   },
   "repository": {
     "type": "git",
