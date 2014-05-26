@@ -1,0 +1,25 @@
+{
+  "name": "taskplanner",
+  "version": "0.0.0",
+  "description": "Plan any task from subtasks!",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mcollina/taskplanner.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mcollina/taskplanner/issues"
+  },
+  "homepage": "https://github.com/mcollina/taskplanner",
+  "devDependencies": {
+    "tap": "~0.4.9"
+  },
+  "dependencies": {
+    "patrun": "~0.2.0"
+  }
+}
