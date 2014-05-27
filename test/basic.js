@@ -107,3 +107,40 @@ test('deep state matching', function(t) {
   t.deepEqual(plan, expected)
   t.end()
 })
+
+test('deep effects', function(t) {
+
+  var instance = planner()
+    , plan
+    , expected = [{
+          cmd: 'get car'
+      }, {
+          cmd: 'drive'
+        , to: 'supermarket'
+      }]
+
+  instance.addTask({ cmd: 'go', to: 'supermarket' }, {
+      preconditions: { state: { me: 'in the car', car: 'stopped' } }
+    , subTasks: [ { cmd: 'drive', to: 'supermarket' } ]
+  })
+
+  instance.addTask({ cmd: 'go', to: 'supermarket' }, {
+      preconditions: { state: { me: 'at home' } }
+    , subTasks: [ { cmd: 'get car' }, { cmd: 'go', to: 'supermarket' } ]
+  })
+
+  instance.addTask({ cmd: 'get car' }, {
+      preconditions: { state: { me: 'at home' } }
+    , effects: { state: { me: 'in the car' } }
+  })
+
+  instance.addTask({ cmd: 'drive', to: 'supermarket' }, {
+      preconditions: { state: { me: 'in the car' } }
+    , effects: { state: { me: 'in the supermarket' } }
+  })
+
+  plan = instance.plan({ state: { me: 'at home', car: 'stopped' } }, { cmd: 'go', to: 'supermarket' })
+
+  t.deepEqual(plan, expected)
+  t.end()
+})

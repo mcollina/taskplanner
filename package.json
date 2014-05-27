@@ -20,6 +20,7 @@
     "tap": "~0.4.9"
   },
   "dependencies": {
-    "patrun": "~0.2.0"
+    "patrun": "~0.2.0",
+    "lodash": "~2.4.1"
   }
 }

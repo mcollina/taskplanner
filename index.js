@@ -1,6 +1,7 @@
 
 var patrun    = require('patrun')
   , isInside  = require('./lib/is_inside')
+  , _         = require('lodash')
 
 function Planner() {
   if (!(this instanceof Planner)) {
@@ -53,10 +54,7 @@ Planner.prototype.plan = function(state, toExecute, tasks) {
     if (!isInside(op.preconditions, state))
       return null
 
-    newState = Object.keys(op.effects || {}).reduce(function(newState, key) {
-      newState[key] = op.effects[key]
-      return newState
-    }, Object.create(state));
+    newState = _.merge(state, op.effects)
 
     if (op.subTasks) {
       toExecute = op.subTasks.concat(toExecute)
