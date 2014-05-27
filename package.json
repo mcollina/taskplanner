@@ -1,6 +1,6 @@
 {
   "name": "taskplanner",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Plan any task from subtasks!",
   "main": "index.js",
   "scripts": {
