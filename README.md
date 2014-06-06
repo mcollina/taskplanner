@@ -31,6 +31,11 @@ plan = planner.addTask({ cmd: 'go', to: 'supermarket' }, {
 assert.deepEqual(plan, expected)
 ```
 
+Acknowledgements
+----------------
+
+This project was kindly sponsored by [nearForm](http://nearform.com).
+
 License
 -------
 
