@@ -1,6 +1,6 @@
 {
   "name": "taskplanner",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Plan any task from subtasks!",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git://github.com/mcollina/taskplanner.git"
   },
-  "author": "",
+  "author": "Matteo Collina <hello@matteocollina.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mcollina/taskplanner/issues"
